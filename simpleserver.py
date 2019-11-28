@@ -5,83 +5,123 @@ app = Flask(__name__,
             static_url_path='',
             static_folder='.')
 
-# JSON where inital weathers are coming from
-weathers = [
+# JSON where inital movies are coming from
+movies = [
     {
-        "town":"Loughrea",
-        "country":"Ireland",
-        "description":"Mild and cool day",
-        "temp":9
+        "id": 0,
+        "name":"Avengers: Endgame",
+        "genre":"Action & Adventure",
+        "description":"The grave course of events set in motion by Thanos that wiped out half the universe and fractured the Avengers ranks compels the remaining Avengers to take one final stand in Marvel Studios' grand conclusion to twenty-two films, Avengers: Endgame.",
+        "totalVotes":9
     },
     {
-        "town":"New York",
-        "country":"United States",
-        "description":"Frezzing cold, very icy",
-        "temp":2
+        "id": 1,
+        "name":"The Wizard of Oz",
+        "genre":"Classics",
+        "description":"L. Frank Baum's classic tale comes to magisterial Technicolor life! The Wizard of Oz stars legendary Judy Garland as Dorothy, an innocent farm girl whisked out of her mundane earthbound existence into a land of pure imagination. Dorothy's journey in Oz will take her through emerald forests, yellow brick roads, and creepy castles, all with the help of some unusual but earnest song-happy friends",
+        "totalVotes":2
     },
     {
-        "town":"Paris",
-        "country":"France",
-        "description":"Raining Alot",
-        "temp":6
+        "id": 2,
+        "name":"Dunkirk",
+        "genre":"Drama",
+        "description":"Acclaimed auteur Christopher Nolan directs this World War II thriller about the evacuation of Allied troops from the French city of Dunkirk before Nazi forces can take hold. Tom Hardy, Kenneth Branagh and Mark Rylance co-star, with longtime Nolan collaborator Hans Zimmer providing the score.",
+        "totalVotes":6
     }
 ]
 
-@app.route('/weathers', methods=['GET'])
-def get_weathers():
-    return jsonify( {'weathers' : weathers})
+nextId=3
 
-@app.route('/weathers/<string:town>', methods =['GET'])
-def get_weather(town):
-    foundweathers = list(filter(lambda t : t['town'] == town , weathers))
-    if len(foundweathers) == 0:
-        return jsonify( { 'weather' : '' }),204
-    return jsonify( { 'weather' : foundweathers[0] })
+@app.route('/movies', methods=['GET'])
+def get_movies():
+    return jsonify( {'movies' : movies})
 
-@app.route('/weathers', methods=['POST'])
-def create_weather():
+@app.route('/movies/<string:name>', methods =['GET'])
+def get_movie(name):
+    foundmovies = list(filter(lambda t : t['name'] == name , movies))
+    if len(foundmovies) == 0:
+        return jsonify( { 'movie' : '' }),204
+    return jsonify( { 'movie' : foundmovies[0] })
+    
+    
+@app.route('/movies/<int:id>')
+def findById(id):
+    foundmovies = list(filter(lambda t: t['id'] == id, movies))
+    if len(foundmovies) == 0:
+        return jsonify ({}) , 204
+
+    return jsonify(foundmovies[0])
+
+@app.route('/movies', methods=['POST'])
+def create_movie():
+    global nextId
     if not request.json:
         abort(400)
-    if not 'town' in request.json:
+    if not 'name' in request.json:
         abort(400)
-    weather={
-        "town":  request.json['town'],
-        "country": request.json['country'],
+    movie={
+        "id": nextId,
+        "name":  request.json['name'],
+        "genre": request.json['genre'],
         "description":request.json['description'],
-        "temp":request.json['temp']
+        "totalVotes":0
     }
-    weathers.append(weather)
-    return jsonify( {'weather':weather }),201
+    
+    nextId+=1
+    movies.append(movie)
+    return jsonify({'movie':movie }),201
 
 
-@app.route('/weathers/<string:town>', methods =['PUT'])
-def update_weather(town):
-    foundweathers=list(filter(lambda t : t['town'] ==town, weathers))
-    if len(foundweathers) == 0:
+@app.route('/movies/<string:name>', methods =['PUT'])
+def update_movie(name):
+    foundmovies=list(filter(lambda t : t['name'] ==name, movies))
+    if len(foundmovies) == 0:
         abort(404)
     if not request.json:
         abort(400)
-    if 'country' in request.json and type(request.json['country']) != str:
+    if 'genre' in request.json and type(request.json['genre']) != str:
         abort(400)
     if 'description' in request.json and type(request.json['description']) is not str:
         abort(400)
-    if 'temp' in request.json and type(request.json['temp']) is not int:
+    if 'totalVotes' in request.json and type(request.json['totalVotes']) is not int:
         abort(400)
-    foundweathers[0]['country']  = request.json.get('country', foundweathers[0]['country'])
-    foundweathers[0]['description'] =request.json.get('description', foundweathers[0]['description'])
-    foundweathers[0]['temp'] =request.json.get('temp', foundweathers[0]['temp'])
-    return jsonify( {'weather':foundweathers[0]})
+    foundmovies[0]['genre']  = request.json.get('genre', foundmovies[0]['genre'])
+    foundmovies[0]['description'] =request.json.get('description', foundmovies[0]['description'])
+    foundmovies[0]['totalVotes'] =request.json.get('totalVotes', foundmovies[0]['totalVotes'])
+    return jsonify( {'movie':foundmovies[0]})
 
-
-
-@app.route('/weathers/<string:town>', methods =['DELETE'])
-def delete_weather(town):
-    foundweathers = list(filter (lambda t : t['town'] == town, weathers))
-    if len(foundweathers) == 0:
+    
+@app.route('/votes/<int:movieid>', methods = ['POST'])
+def addVote(movieid):
+    foundmovies=list(filter(lambda t : t['id']==movieid, movies))
+    if len(foundmovies)== 0:
         abort(404)
-    weathers.remove(foundweathers[0])
-    return  jsonify( { 'result':True })
+    if not request.json:
+        abort(400)
+    if not 'votes' in request.json or type(request.json['votes']) is not int:
+        abort(401)
+    Newvote = request.json['votes']
+    
+    foundmovies[0]['totalVotes'] += Newvote
+    return jsonify(foundmovies[0])
 
+
+@app.route('/votes/leaderboard')
+def getleaderBoard():
+#ut.sort(key=lambda x: x.count, reverse=True)
+    movies.sort(key=lambda x: x['totalVotes'], reverse=True)
+
+    return jsonify(movies)
+
+
+
+@app.route('/movies/<string:name>', methods =['DELETE'])
+def delete_movie(name):
+    foundmovies = list(filter (lambda t : t['name'] == name, movies))
+    if len(foundmovies) == 0:
+        abort(404)
+    movies.remove(foundmovies[0])
+    return  jsonify( { 'result':True })
 
 
 @app.errorhandler(404)

@@ -55,10 +55,10 @@ class MovieDAO:
         cursor.execute(sql, values)
         self.db.commit()
 
-    def delete(self, id):
+    def delete(self, name):
         cursor = self.db.cursor()
-        sql="delete from book where id = %s"
-        values = (id,)
+        sql="delete from movies where name = %s"
+        values = (name,)
 
         cursor.execute(sql, values)
 
@@ -66,7 +66,7 @@ class MovieDAO:
         print("delete done")
 
     def convertToDictionary(self, result):
-        colnames=['id','Title','Author', "Price"]
+        colnames=['id','name','genre', "description", "totalVotes"]
         item = {}
         
         if result:
@@ -76,4 +76,13 @@ class MovieDAO:
         
         return item
         
+    def addVote(self, values):
+        cursor = self.db.cursor()
+        sql="update movies set totalVotes=totalVotes + %s where id = %s"
+        cursor.execute(sql, values)
+        self.db.commit()
+
+#update movies
+#set totalVotes = totalVotes + 3
+#where id = 2
 movieDAO = MovieDAO()

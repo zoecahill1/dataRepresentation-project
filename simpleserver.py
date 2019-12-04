@@ -169,37 +169,85 @@ def update_movie(name):
 #    return jsonify( {'movie':foundmovies[0]})
 
     
-@app.route('/votes/<int:movieid>', methods = ['POST'])
-def addVote(movieid):
-    foundmovies=list(filter(lambda t : t['id']==movieid, movies))
-    if len(foundmovies)== 0:
+#@app.route('/votes/<int:movieid>', methods = ['POST'])
+#def addVote(movieid):
+#    foundmovies=list(filter(lambda t : t['id']==movieid, movies))
+#    if len(foundmovies)== 0:
+#        abort(404)
+#    if not request.json:
+#        abort(400)
+#    if not 'votes' in request.json or type(request.json['votes']) is not int:
+#        abort(401)
+#    Newvote = request.json['votes']
+#    
+#    foundmovies[0]['totalVotes'] += Newvote
+#    return jsonify(foundmovies[0])
+
+
+
+@app.route('/movies/<string:name>', methods=['PUT'])
+def addVote(name):
+    foundmovie = movieDAO.get_movie(name)
+    print(foundmovie)
+    if not foundmovie:
+        print(name)
+        print('no mmmooovie')
         abort(404)
+    
     if not request.json:
         abort(400)
-    if not 'votes' in request.json or type(request.json['votes']) is not int:
-        abort(401)
-    Newvote = request.json['votes']
-    
-    foundmovies[0]['totalVotes'] += Newvote
-    return jsonify(foundmovies[0])
+    reqJson = request.json
+    if 'totalVotes' in reqJson and type(reqJson['totalVotes']) is not int:
+        abort(400)
 
+    #if 'id' in reqJson:
+     #   foundmovie['id'] = reqJson['id']
+    if 'name' in reqJson:
+        foundmovie['name'] = reqJson['name']
+    if 'genre' in reqJson:
+        foundmovie['genre'] = reqJson['genre']
+    if 'description' in reqJson:
+        foundmovie['description'] = reqJson['description']
+    if 'totalVotes' in reqJson:
+        foundmovie['totalVotes'] = reqJson['totalVotes']
+    values = (foundmovie['name'],foundmovie['genre'],foundmovie['description'],foundmovie['totalVotes'],foundmovie['id'])
+    movieDAO.update_movie(values)
+    return jsonify(foundmovie)
+
+
+#curl "http://127.0.0.1:5000/votes/leaderboard"
 
 @app.route('/votes/leaderboard')
 def getleaderBoard():
+    results = movieDAO.getAll()
 #ut.sort(key=lambda x: x.count, reverse=True)
-    movies.sort(key=lambda x: x['totalVotes'], reverse=True)
+    results.sort(key=lambda x: x['totalVotes'], reverse=True)
+    #results.sort(key=lambda x: x['totalVotes'], reverse=True)
+    return jsonify(results)
 
-    return jsonify(movies)
+
+#@app.route('/votes/leaderboard')
+#def getleaderBoard():
+##ut.sort(key=lambda x: x.count, reverse=True)
+  #  movies.sort(key=lambda x: x['totalVotes'], reverse=True)
+
+   # return jsonify(movies)
 
 
 
-@app.route('/movies/<string:name>', methods =['DELETE'])
-def delete_movie(name):
-    foundmovies = list(filter (lambda t : t['name'] == name, movies))
-    if len(foundmovies) == 0:
-        abort(404)
-    movies.remove(foundmovies[0])
-    return  jsonify( { 'result':True })
+#@app.route('/movies/<string:name>', methods =['DELETE'])
+#def delete_movie(name):
+ #   foundmovies = list(filter (lambda t : t['name'] == name, movies))
+  #  if len(foundmovies) == 0:
+   #     abort(404)
+    #movies.remove(foundmovies[0])
+    #return  jsonify( { 'result':True })
+
+
+@app.route('/movies/<string:name>' , methods=['DELETE'])
+def delete(name):
+    movieDAO.delete(name)
+    return jsonify({"done":True})
 
 
 @app.errorhandler(404)

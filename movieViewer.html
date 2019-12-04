@@ -269,8 +269,9 @@
             "data":"",
             "dataType": "JSON",
             "success":function(result){
-                //console.log(result);
-                for (movie of result.movies){
+                console.log(result);
+                //for (movie of result.movies){
+                for (movie of result){
                     addmovieToTable(movie);
                 }
             },

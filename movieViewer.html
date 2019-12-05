@@ -133,7 +133,7 @@
         var index = movie.id;
 		var form = document.getElementById('createUpdateForm')
 		var numvotes = form.querySelector('input[name="totalVotes"]').value
-		console.log(numvotes)
+		//console.log(numvotes)
 		// call to ajax method to update movie on server
         votesAjax(index, numvotes);
         //setmovieInRow(rowElement,movie);
@@ -233,7 +233,7 @@
         form.querySelector('input[name="description"]').value= movie.description
 		form.querySelector('input[name="iden"]').value= id
         //form.querySelector('input[name="totalVotes"]').value= movie.totalVotes
-		console.log(movie)
+		//console.log(movie)
         return movie
     }
 	
@@ -245,7 +245,7 @@
         movie.description = form.querySelector('input[name="description"]').value
 		movie.id = form.querySelector('input[name="iden"]').value
         //movie.totalVotes = parseInt(form.querySelector('input[name="totalVotes"]').value,10)
-        console.log(JSON.stringify(movie))
+        //console.log(JSON.stringify(movie))
         return movie
     }
 	
@@ -316,13 +316,13 @@
 	// curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1
 	    function votesAjax(index, numvotes){
 		
-        console.log(index);
+        //console.log(index);
 		parseInt(numvotes)
 		var votes = "{\"votes\": "+numvotes+"}"
-		console.log(votes);
+		//console.log(votes);
         $.ajax({
             "url": "http://127.0.0.1:5000/votes/"+index,
-            "method":"POST",
+            "method":"PUT",
             "data": votes,
             "dataType": "JSON",
             contentType: "application/json",

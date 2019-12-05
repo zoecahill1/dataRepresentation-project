@@ -183,12 +183,12 @@ def update_movie(name):
 #    foundmovies[0]['totalVotes'] += Newvote
 #    return jsonify(foundmovies[0])
 
+#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"name\":\"another\",\"genre\":\"Comedy\",\"description\":\"new\",\"totalVotes\":11}" http://127.0.0.1:5000/movies/1
 
+@app.route('/votes/<int:id>', methods=['PUT'])
+def addVote(id):
+    foundmovie = movieDAO.findID(id)
 
-@app.route('/movies/<string:name>', methods=['PUT'])
-def addVote(name):
-    foundmovie = movieDAO.get_movie(name)
-    print(foundmovie)
     if not foundmovie:
         print(name)
         print('no mmmooovie')
@@ -197,21 +197,14 @@ def addVote(name):
     if not request.json:
         abort(400)
     reqJson = request.json
-    if 'totalVotes' in reqJson and type(reqJson['totalVotes']) is not int:
-        abort(400)
 
-    #if 'id' in reqJson:
-     #   foundmovie['id'] = reqJson['id']
-    if 'name' in reqJson:
-        foundmovie['name'] = reqJson['name']
-    if 'genre' in reqJson:
-        foundmovie['genre'] = reqJson['genre']
-    if 'description' in reqJson:
-        foundmovie['description'] = reqJson['description']
-    if 'totalVotes' in reqJson:
-        foundmovie['totalVotes'] = reqJson['totalVotes']
-    values = (foundmovie['name'],foundmovie['genre'],foundmovie['description'],foundmovie['totalVotes'],foundmovie['id'])
-    movieDAO.update_movie(values)
+    if 'id' in reqJson:
+        foundmovie['id'] = reqJson['id']
+
+    Newvote = request.json['votes']
+
+    values =(Newvote, int(foundmovie[0]))
+    movieDAO.addVote(values)
     return jsonify(foundmovie)
 
 

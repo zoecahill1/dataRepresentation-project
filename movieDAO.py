@@ -49,6 +49,14 @@ class MovieDAO:
         result = cursor.fetchone()
         return self.convertToDictionary(result)
 
+    def findID(self, id):
+        cursor = self.db.cursor()
+        sql="select id from movies where id = %s"
+        values = (id,)
+        cursor.execute(sql, values)
+        result = cursor.fetchone()
+        return result
+
     def update_movie(self, values):
         cursor = self.db.cursor()
         sql="update movies set name= %s,genre=%s, description=%s, totalVotes=%s where id = %s"
@@ -82,7 +90,4 @@ class MovieDAO:
         cursor.execute(sql, values)
         self.db.commit()
 
-#update movies
-#set totalVotes = totalVotes + 3
-#where id = 2
 movieDAO = MovieDAO()

@@ -89,6 +89,7 @@ def create():
         "description":request.json['description'],
         "totalVotes":0
     }
+    
     values =(movie['name'],movie['genre'],movie['description'],movie['totalVotes'])
     newId = movieDAO.create(values)
     movie['id'] = newId

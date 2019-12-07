@@ -1,14 +1,87 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>View Poll</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    
+        <style>
+            /* Remove the navbar's default margin-bottom and rounded borders */ 
+            .navbar {
+              margin-bottom: 0;
+              border-radius: 0;
+            }
+            
+            /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+            .row.content {height: 450px}
+            
+            /* Set gray background color and 100% height */
+            .sidenav {
+              padding-top: 20px;
+              background-color: #f1f1f1;
+              height: 100%;
+            }
+            
+            /* Set black background color, white text and some padding */
+            footer {
+              background-color: #555;
+              color: white;
+              padding: 15px;
+            }
+            
+            /* On small screens, set height to 'auto' for sidenav and grid */
+            @media screen and (max-width: 767px) {
+              .sidenav {
+                height: auto;
+                padding: 15px;
+              }
+              .row.content {height:auto;} 
+            }
+          </style>
+    
+    
     </head>
     <body>
+
+            <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                      <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>                        
+                        </button>
+                        <!--<a class="navbar-brand" href="#">Logo</a>-->
+                      </div>
+                      <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                          <li class="active"><a href="movieViewer.html">Admin View</a></li>
+                          <!--<li><a href="#" onclick="showCreate();return false;">Create New Entry</a></li>-->
+                          <li><a href="leader.html">View Leaderboard</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                    
+                  <div class="container-fluid text-center">    
+                    <div class="row content">
+                      <div class="col-sm-2 sidenav">
+                        <p><a href="#">Link</a></p>
+                        <p><a href="#">Link</a></p>
+                        <p><a href="#">Link</a></p>
+                      </div>
+                      <div class="col-sm-8 text-left"> 
+
         <h1>Favourite Movie Poll</h1>
-        <div> <button id="showCreateButton" onclick="showCreate()">Create an Entry</button></div>
-		<div> <button id="leader" onclick=location.href='leader.html';"">View Leaderboard</button></div>
+        <p><div> <button id="showCreateButton" onclick="showCreate()">Create an Entry</button></div><br>
+		<!--<div> <button id="leader" onclick=location.href='leader.html';"">View Leaderboard</button></div>-->
         <div>
             <table class="table" id="movieTable">
                 <tr>
@@ -23,7 +96,7 @@
 
             </table>
         </div>
-        <div id='createUpdateForm' style="display: none">
+        <div id='createUpdateForm' style="display: none" >
                 <h2><span id="createLabel">Create a</span><span id="voteLabel">Add votes for a</span> <span id="updateLabel">Update</span> movie</h2>
                 <div id="name"><h5>Name</h5>
                 <input type="text" name="name" class="form-control"/> <br/>
@@ -62,14 +135,41 @@
                 <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
 				<span><button id="dovoteButton" onclick="dovote()">Add votes</button></span>
 				
-        </div>
-    </body>
-    <script>
+        </div> 
+    </p>
+
+</div>
+<div class="col-sm-2 sidenav">
+  <div class="well">
+    <p>ADS</p>
+  </div>
+  <div class="well">
+    <p>ADS</p>
+  </div>
+</div>
+</div>
+</div>
+
+<footer class="container-fluid text-center">
+<p>Zoe Cahill - Project for Data Representation GMIT 2019</p>
+</footer>
+</body>
+
+<script>
+
+    function validateForm() {
+        var x = document.forms["createUpdateForm"]["name"].value;
+        if (x == "") {
+        alert("Field cannot be empty");
+        return false;
+    }
+}
+
     function showCreate(){
         document.getElementById('showCreateButton').style.display="none"
         document.getElementById('movieTable').style.display="none"
         document.getElementById('createUpdateForm').style.display="block"
-				document.getElementById('iden').style.display="none"
+		document.getElementById('iden').style.display="none"
         document.getElementById('createLabel').style.display="inline"
         document.getElementById('updateLabel').style.display="none"
 		document.getElementById('voteLabel').style.display="none"
@@ -356,4 +456,5 @@
     getAllAjax();
 	
     </script>
+    
 </html>

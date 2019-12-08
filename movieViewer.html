@@ -64,7 +64,7 @@
                           <li><a href="leader.html">View Leaderboard</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                          
                         </ul>
                       </div>
                     </div>
@@ -124,11 +124,12 @@
                 <h5>Description</h5>
                 <input type="text" name="description" class="form-control"/> <br/>
 				</div>
-								<div id="iden">
+				<div id="iden">
                 <h5>id</h5>
                 <input type="text" name="iden" class="form-control"/> <br/>
 				</div>
                 <div id='votesform' style="display: none"><h5>Votes</h5>
+                    <h6><i>*enter positive number to add votes and minus number to remove votes</i></h6>
                 <input type="number" name="totalVotes" class="form-control"/> <br/></div>
 				
                 <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
@@ -157,13 +158,6 @@
 
 <script>
 
-    function validateForm() {
-        var x = document.forms["createUpdateForm"]["name"].value;
-        if (x == "") {
-        alert("Field cannot be empty");
-        return false;
-    }
-}
 
     function showCreate(){
         document.getElementById('showCreateButton').style.display="none"
@@ -204,6 +198,15 @@
         movie.name = form.querySelector('input[name="name"]').value
         movie.genre = form.querySelector('select[name="genre"]').value
         movie.description = form.querySelector('input[name="description"]').value
+
+        
+        if (movie.name==""){
+            alert("Name must be filled in")
+        }
+        else if (movie.description ==""){
+            alert("Description must be filled in")
+        }
+        else{
         //movie.totalVotes = form.querySelector('input[name="totalVotes"]').value
         console.log(JSON.stringify(movie))
 		// call to ajax method to create movie on server
@@ -212,9 +215,19 @@
         clearForm()
         showViewAll()
 		window.location.reload();
+        }
+        
     }
     function doUpdate(){
         var movie = getmovieFromForm();
+        x = movie['description']
+        console.log(x)
+
+        if (x==""){
+            alert("Description must be filled in")
+        }
+
+        else{
         var rowElement = document.getElementById(movie.name);
 		// call to ajax method to update movie on server
         updatemovieAjax(movie);
@@ -222,6 +235,7 @@
         clearForm();
         showViewAll();
 		window.location.reload();
+        }
     }
 	
 	// curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1

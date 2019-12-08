@@ -31,6 +31,14 @@ class MovieDAO:
 
         return returnArray
 
+    #def getUser(self):
+    #    cursor = self.db.cursor()
+    #    sql="select * from users where admin = 1"
+
+    #    cursor.execute(sql)
+    #    result = cursor.fetchone()
+    #    return self.convertToDictionaryUser(result)
+
     def get_movie(self, name):
         cursor = self.db.cursor()
         sql="select * from movies where name = %s"
@@ -83,6 +91,18 @@ class MovieDAO:
                 item[colName] = value
         
         return item
+
+
+    #def convertToDictionaryUser(self, result):
+    #    colnames=['id','name','username', "password", "admin"]
+    #    item = {}
+    #    
+    #    if result:
+    #        for i, colName in enumerate(colnames):
+    #            value = result[i]
+    #            item[colName] = value
+    #    
+    #    return item
         
     def addVote(self, values):
         cursor = self.db.cursor()

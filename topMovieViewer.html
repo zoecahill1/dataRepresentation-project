@@ -24,9 +24,9 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="movieViewer.html">Admin View</a></li>
-          <li class="active"><a href="leader.html">View Leaderboard</a></li>
+          <li ><a href="leader.html">View Leaderboard</a></li>
           <li><a href="moviesearch.html">Search Movies</a></li>
-          <li><a href="topMovieViewer.html">View Top 100 Movies</a></li>
+          <li class="active"><a href="topMovieViewer.html">View Top 100 Movies</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
 
@@ -46,14 +46,13 @@
 
       </div>
       <div class="col-sm-8 text-left">
-        <h1>Favourite Movie Poll Leaderboard</h1>
+        <h1>Top 100 Movies From IMDB</h1>
         <div>
           <table class="table" id="movieTable">
             <tr>
+                    <th>Rank</th>
               <th>Name</th>
-              <th>Genre</th>
-              <th>Description</th>
-              <th>Votes</th>
+              <th>Year</th>
             </tr>
 
           </table>
@@ -82,18 +81,16 @@
     var rowElement = tableElement.insertRow(-1)
     rowElement.setAttribute('id', movie.id)
     var cell1 = rowElement.insertCell(0);
-    cell1.innerHTML = movie.name
+    cell1.innerHTML = movie.id
     var cell2 = rowElement.insertCell(1);
-    cell2.innerHTML = movie.genre
+    cell2.innerHTML = movie.Title
     var cell3 = rowElement.insertCell(2);
-    cell3.innerHTML = movie.description
-    var cell4 = rowElement.insertCell(3);
-    cell4.innerHTML = movie.totalVotes
+    cell3.innerHTML = movie.Year
   }
 
   function getAllAjax() {
     $.ajax({
-      "url": "http://127.0.0.1:5000/votes/leaderboard",
+      "url": "http://127.0.0.1:5000/top",
       "method": "GET",
       "data": "",
       "dataType": "JSON",

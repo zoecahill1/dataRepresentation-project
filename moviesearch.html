@@ -1,118 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-  <meta charset="utf-8">
-  <title>Movie Search</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<title>Movie Search</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
-		<body>
-				<nav class="navbar navbar-inverse">
-						<div class="container-fluid">
-						  <div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-							  <span class="icon-bar"></span>
-							  <span class="icon-bar"></span>
-							  <span class="icon-bar"></span>                        
-							</button>
-							<!--<a class="navbar-brand" href="#"></a>-->
-						  </div>
-						  <div class="collapse navbar-collapse" id="myNavbar">
-							<ul class="nav navbar-nav">
-							<li><a href="movieViewer.html">Admin View</a></li>
-							<!--<li><a href="#" onclick="showCreate();return false;">Create New Entry</a></li>-->
-							<li><a href="leader.html">View Leaderboard</a></li>
-							<li class="active"><a href="moviesearch.html">Search Movies</a></li>
-							</ul>
-							<ul class="nav navbar-nav navbar-right">
-							  
-							</ul>
-						  </div>
+	<body>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="movieViewer.html">Admin View</a></li>
+						<li><a href="leader.html">View Leaderboard</a></li>
+						<li class="active"><a href="moviesearch.html">Search Movies</a></li>
+						<li><a href="topMovieViewer.html">View Top 100 Movies</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container-fluid text-center">
+			<div class="row content">
+				<div class="col-sm-2 sidenav">
+
+					<div class="well">
+						<p><img src="/img/movielogo2.png" alt="Movie Logo" height="92" width="102"></p>
+					</div>
+
+				</div>
+				<div class="col-sm-8 text-left">
+
+					<div class="main-header">
+						<div class="inner">
+							<h1 class="main-title">Search for details of movie</h1>
+							<form class="search-form">
+								<label class="is-hidden" for="search">Search by name</label>
+								<input type="search" name="search" id="search" placeholder="Search movie...">
+
+								<button type="submit" id="submit" class="search-button"><i
+										class="material-icons icn-search">search</i></button>
+							</form>
 						</div>
-					  </nav>
-						
-					  <div class="container-fluid text-center">    
-						<div class="row content">
-						  <div class="col-sm-2 sidenav">
-	
-	
-							<!--<p><a href="#">Link</a></p>
-							<p><a href="#">Link</a></p>
-							<p><a href="#">Link</a></p>-->
-	
-							
-	
-	
-	
-						  </div>
-						  <div class="col-sm-8 text-left"> 
+					</div>
 
-  <div class="main-header">
-    <div class="inner">
-      <h1 class="main-title">Search for details of movie</h1>
-      <form class="search-form">
-        <label class="is-hidden" for="search">Search by name</label>
-        <input type="search" name="search" id="search" placeholder="Search movie...">
+					<div class="main-content clearfix">
+						<ul id="movies" class="movie-list">
 
-        <button type="submit" id="submit" class="search-button"><i class="material-icons icn-search">search</i></button>
-      </form>   
-    </div>   
-  </div>
-
-  <div class="main-content clearfix">
-    <ul id="movies" class="movie-list">      
-
-    </ul> 
-  </div>
+						</ul>
+					</div>
 
 
-	<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+					<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+					<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+						integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+						crossorigin="anonymous"></script>
 
-  <script src="js/search.js"></script>
+					<script src="js/search.js"></script>
 
-  <div class="modal fade in" tabindex="-1" role="dialog" id="posterModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <a href="http://www.imdb.com/title/" target="_blank">
-            <button type="button" class="btn btn-primary">Link to IMDB</button>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+					<div class="modal fade in" tabindex="-1" role="dialog" id="posterModal">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+											aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body"></div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<a href="http://www.imdb.com/title/" target="_blank">
+										<button type="button" class="btn btn-primary">Link to IMDB</button>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 
-<hr>
-</div>
-<div class="col-sm-2 sidenav">
-<div class="well">
-  <p>ADS</p>
-</div>
-<div class="well">
-  <p>ADS</p>
-</div>
-</div>
-</div>
-</div>
+					<hr>
+				</div>
+				<div class="col-sm-2 sidenav">
+					<div class="well">
+						<p><img src="/img/movielogo.png" alt="Movie Logo" height="92" width="132"></p>
+					</div>
+				</div>
+			</div>
+		</div>
 
-<footer class="container-fluid text-center">
-<p>Zoe Cahill - Project for Data Representation GMIT 2019</p>
-</footer>
+		<footer class="container-fluid text-center">
+			<p>Zoe Cahill - Project for Data Representation GMIT 2019</p>
+		</footer>
 
-</body>
+	</body>
+
 </html>

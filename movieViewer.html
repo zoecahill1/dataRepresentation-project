@@ -1,125 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>View Poll</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="css/style.css">
-        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    </head>
-    <body>
 
-            <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                      <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>                        
-                        </button>
-                        <!--<a class="navbar-brand" href="#">Logo</a>-->
-                      </div>
-                      <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav">
-                          <li class="active"><a href="movieViewer.html">Admin View</a></li>
-                          <!--<li><a href="#" onclick="showCreate();return false;">Create New Entry</a></li>-->
-                          <li><a href="leader.html">View Leaderboard</a></li>
-                          <li><a href="moviesearch.html">Search Movies</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                          
-                        </ul>
-                      </div>
-                    </div>
-                  </nav>
-                    
-                  <div class="container-fluid text-center">    
-                    <div class="row content">
-                      <div class="col-sm-2 sidenav">
-                        <p><a href="#">Link</a></p>
-                        <p><a href="#">Link</a></p>
-                        <p><a href="#">Link</a></p>
-                      </div>
-                      <div class="col-sm-8 text-left"> 
+<head>
+    <title>View Poll</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
-        <h1>Favourite Movie Poll</h1>
-        <p><div> <button id="showCreateButton" onclick="showCreate()">Create an Entry</button></div><br>
-		<!--<div> <button id="leader" onclick=location.href='leader.html';"">View Leaderboard</button></div>-->
-        <div>
-            <table class="table" id="movieTable">
-                <tr>
-                        <th>Name</th>
-                        <th>Genre</th>
-                        <th>Description</th>
-                        <th>Votes</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-						<th>Vote</th>
-                </tr>
+<body>
 
-            </table>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="movieViewer.html">Admin View</a></li>
+                    <li><a href="leader.html">View Leaderboard</a></li>
+                    <li><a href="moviesearch.html">Search Movies</a></li>
+                    <li><a href="topMovieViewer.html">View Top 100 Movies</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                </ul>
+            </div>
         </div>
-        <div id='createUpdateForm' style="display: none" >
-                <h2><span id="createLabel">Create a</span><span id="voteLabel">Add votes for a</span> <span id="updateLabel">Update</span> movie</h2>
-                <div id="name"><h5>Name</h5>
-                <input type="text" name="name" class="form-control"/> <br/>
+    </nav>
+
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+                <div class="well">
+                    <p><img src="/img/movielogo2.png" alt="Movie Logo" height="92" width="102"></p>
                 </div>
-				<div id="gen">
-                <h5>Genre</h5>
-                <select id="genre" name="genre" class="form-control">
-                    <option value="Action & Adventure">Action & Adventure</option>
-                    <option value="Comedy">Comedy</option>
-                    <option value="Crime">Crime</option>
-                    <option value="Classics">Classics</option>
-                    <option value="Drama">Drama</option>
-                    <option value="Fantasy">Fantasy</option>
-                    <option value="Historical">Historical</option>
-                    <option value="Horror">Horror</option>
-                    <option value="Mystery">Mystery</option>
-                    <option value="Romance">Romance</option>
-					<option value="Science fiction">Science fiction</option>
-                    <option value="Thriller">Thriller</option>
-                    <option value="Western">Western</option>
-                </select>
-                
-                <br/></div>
-				<div id="description">
-                <h5>Description</h5>
-                <input type="text" name="description" class="form-control"/> <br/>
-				</div>
-				<div id="iden">
-                <h5>id</h5>
-                <input type="text" name="iden" class="form-control"/> <br/>
-				</div>
-                <div id='votesform' style="display: none"><h5>Votes</h5>
-                    <h6><i>*enter positive number to add votes and minus number to remove votes</i></h6>
-                <input type="number" name="totalVotes" class="form-control"/> <br/></div>
-				
-                <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
-                <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
-				<span><button id="dovoteButton" onclick="dovote()">Add votes</button></span>
-				
-        </div> 
-    </p>
+            </div>
+            <div class="col-sm-8 text-left">
 
-</div>
-<div class="col-sm-2 sidenav">
-  <div class="well">
-    <p>ADS</p>
-  </div>
-  <div class="well">
-    <p>ADS</p>
-  </div>
-</div>
-</div>
-</div>
+                <h1>Favourite Movie Poll</h1>
+                <p>
+                    <div> <button id="showCreateButton" onclick="showCreate()">Create an Entry</button></div><br>
+                    <div>
+                        <table class="table" id="movieTable">
+                            <tr>
+                                <th>Name</th>
+                                <th>Genre</th>
+                                <th>Description</th>
+                                <th>Votes</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                                <th>Vote</th>
+                            </tr>
 
-<footer class="container-fluid text-center">
-<p>Zoe Cahill - Project for Data Representation GMIT 2019</p>
-</footer>
+                        </table>
+                    </div>
+                    <div id='createUpdateForm' style="display: none">
+                        <h2><span id="createLabel">Create a</span><span id="voteLabel">Add votes for a</span> <span
+                                id="updateLabel">Update</span> movie</h2>
+                        <div id="name">
+                            <h5>Name</h5>
+                            <input type="text" name="name" class="form-control" /> <br />
+                        </div>
+                        <div id="gen">
+                            <h5>Genre</h5>
+                            <select id="genre" name="genre" class="form-control">
+                                <option value="Action & Adventure">Action & Adventure</option>
+                                <option value="Comedy">Comedy</option>
+                                <option value="Crime">Crime</option>
+                                <option value="Classics">Classics</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Historical">Historical</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Mystery">Mystery</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Science fiction">Science fiction</option>
+                                <option value="Thriller">Thriller</option>
+                                <option value="Western">Western</option>
+                            </select>
+
+                            <br />
+                        </div>
+                        <div id="description">
+                            <h5>Description</h5>
+                            <input type="text" name="description" class="form-control" /> <br />
+                        </div>
+                        <div id="iden">
+                            <h5>id</h5>
+                            <input type="text" name="iden" class="form-control" /> <br />
+                        </div>
+                        <div id='votesform' style="display: none">
+                            <h5>Votes</h5>
+                            <h6><i>*enter positive number to add votes and minus number to remove votes</i></h6>
+                            <input type="number" name="totalVotes" class="form-control" /> <br />
+                        </div>
+
+                        <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
+                        <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+                        <span><button id="dovoteButton" onclick="dovote()">Add votes</button></span>
+
+                    </div>
+                </p>
+
+            </div>
+            <div class="col-sm-2 sidenav">
+                <div class="well">
+                    <p><img src="/img/movielogo.png" alt="Movie Logo" height="92" width="132"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <p>Zoe Cahill - Project for Data Representation GMIT 2019</p>
+    </footer>
 </body>
 <script src="js/adminFunctions.js"></script>
+
 </html>

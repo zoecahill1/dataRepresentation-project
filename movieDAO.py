@@ -1,4 +1,5 @@
 import mysql.connector
+import csv
 class MovieDAO:
     db=""
     def __init__(self): 
@@ -9,6 +10,41 @@ class MovieDAO:
         database="project"
         )
 
+    def clear_table(self):
+        cursor = self.db.cursor()
+        sql="truncate table topMovies"
+        cursor.execute(sql)
+
+    def gettop(self):
+        cursor = self.db.cursor()
+        sql="select * from topMovies"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        returnArray = []
+        print(results)
+        for result in results:
+            print(result)
+            returnArray.append(self.convertToDictionaryTop(result))
+
+        return returnArray
+
+
+    def top_movies(self):
+        with open ('ImdbTopMovies.csv', 'r') as f:
+            reader = csv.reader(f)
+            columns = next(reader) 
+            query = 'insert into topMovies(Title,Year) values (%s,%s)'
+            print(query)
+            #query = query.format(','.join(columns), ','.join('?' * len(columns)))
+            print(query)
+            
+            #cursor = connection.cursor()
+            cursor = self.db.cursor()
+            for data in reader:
+                print (data)
+                cursor.execute(query, data)
+            self.db.commit()
+            return print("Done")
 
     def create(self, values):
         cursor = self.db.cursor()
@@ -93,16 +129,16 @@ class MovieDAO:
         return item
 
 
-    #def convertToDictionaryUser(self, result):
-    #    colnames=['id','name','username', "password", "admin"]
-    #    item = {}
-    #    
-    #    if result:
-    #        for i, colName in enumerate(colnames):
-    #            value = result[i]
-    #            item[colName] = value
-    #    
-    #    return item
+    def convertToDictionaryTop(self, result):
+        colnames=['id','Title','Year']
+        item = {}
+        
+        if result:
+            for i, colName in enumerate(colnames):
+                value = result[i]
+                item[colName] = value
+        
+        return item
         
     def addVote(self, values):
         cursor = self.db.cursor()

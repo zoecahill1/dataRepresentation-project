@@ -23,6 +23,11 @@ def auth_required(f):
     return decorated
 
 
+@app.route('/top')
+def get_top():
+    #print("in getall")
+    results = movieDAO.gettop()
+    return jsonify(results)
 
 #curl "http://127.0.0.1:5000/movies"
 @app.route('/movies')

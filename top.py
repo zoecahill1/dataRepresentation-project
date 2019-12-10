@@ -4,8 +4,6 @@ import json
 import requests
 from movieDAO import movieDAO
 
-
-
 class IMDB_top_movies:
 
     api = 'c460f163'

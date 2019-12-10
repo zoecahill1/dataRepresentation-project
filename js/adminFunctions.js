@@ -79,14 +79,14 @@ function doUpdate() {
 
 // curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1
 
-
+// ERROR CALLING ROW NUMBER AS INDEX INSTEAD OF ID
 function dovote() {
     var movie = getmovieFromForm2();
-    //var rowElement = r.parentNode.parentNode;
     var index = movie.id;
+    var index = document.getElementById("movieTable").rows[index].lastChild.innerHTML
+    console.log(index)
     var form = document.getElementById('createUpdateForm')
     var numvotes = form.querySelector('input[name="totalVotes"]').value
-    //console.log(numvotes)
     // call to ajax method to update movie on server
     votesAjax(index, numvotes);
     //setmovieInRow(rowElement,movie);
@@ -145,6 +145,9 @@ function addmovieToTable(movie) {
     cell6.innerHTML = '<button onclick=doDelete(this)>Delete</button>'
     var cell7 = rowElement.insertCell(6);
     cell7.innerHTML = '<button onclick=showVote(this)>Vote</button>'
+    var cell8 = rowElement.insertCell(7);
+    var x = movie.id
+    cell8.innerHTML = movie.id
 }
 function clearForm() {
     var form = document.getElementById('createUpdateForm')
@@ -160,6 +163,7 @@ function getmovieFromRow(rowElement) {
     movie.genre = rowElement.cells[1].firstChild.textContent
     movie.description = rowElement.cells[2].firstChild.textContent
     movie.totalVotes = parseInt(rowElement.cells[3].firstChild.textContent, 10)
+    movie.id = parseInt(rowElement.cells[4].firstChild.textContent, 10)
     return movie
 }
 function setmovieInRow(rowElement, movie) {
@@ -198,9 +202,11 @@ function getmovieFromForm2() {
     movie.description = form.querySelector('input[name="description"]').value
     movie.id = form.querySelector('input[name="iden"]').value
     //movie.totalVotes = parseInt(form.querySelector('input[name="totalVotes"]').value,10)
-    //console.log(JSON.stringify(movie))
+    console.log(JSON.stringify(movie))
     return movie
 }
+
+
 
 function getmovieFromForm() {
     var form = document.getElementById('createUpdateForm')
@@ -210,7 +216,7 @@ function getmovieFromForm() {
     movie.description = form.querySelector('input[name="description"]').value
     //movie.id = form.querySelector('input[name="iden"]').value
     //movie.totalVotes = parseInt(form.querySelector('input[name="totalVotes"]').value,10)
-    console.log(JSON.stringify(movie))
+    //console.log(JSON.stringify(movie))
     return movie
 }
 
@@ -233,6 +239,7 @@ function getAllAjax() {
         }
     });
 }
+
 function createmovieAjax(movie) {
     console.log(JSON.stringify(movie));
     $.ajax({
@@ -269,7 +276,7 @@ function updatemovieAjax(movie) {
 // curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1
 function votesAjax(index, numvotes) {
 
-    //console.log(index);
+    console.log(index);
     parseInt(numvotes)
     var votes = "{\"votes\": " + numvotes + "}"
     //console.log(votes);

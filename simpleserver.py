@@ -7,6 +7,8 @@ app = Flask(__name__,
             static_url_path='',
             static_folder='.')
 
+# only users with correct usersname and password can access admin features
+# such as creating or deleting entries
 def auth_required(f):
 
 
@@ -116,7 +118,7 @@ def update_movie(name):
 #curl  -i -H "Content-Type:application/json" -X PUT -d "{\"name\":\"another\",\"genre\":\"Comedy\",\"description\":\"new\",\"totalVotes\":11}" http://127.0.0.1:5000/movies/1
 
 @app.route('/votes/<int:id>', methods=['PUT'])
-@auth_required
+#@auth_required
 def addVote(id):
     foundmovie = movieDAO.findID(id)
 

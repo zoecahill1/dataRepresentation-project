@@ -1,13 +1,15 @@
 import mysql.connector
 import csv
+import dbconfig as cfg
+
 class MovieDAO:
     db=""
     def __init__(self): 
         self.db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="project"
+        host=       cfg.mysql['host'],
+        user=       cfg.mysql['user'],
+        password=   cfg.mysql['password'],
+        database=   cfg.mysql['database']
         )
 
     def clear_table(self):

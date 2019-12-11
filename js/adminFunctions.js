@@ -219,11 +219,12 @@ function getmovieFromForm() {
     //console.log(JSON.stringify(movie))
     return movie
 }
-
+host = window.location.origin
 // All coming from test files
 function getAllAjax() {
     $.ajax({
-        "url": "http://127.0.0.1:5000/movies",
+        "url": host+"/movies",
+        //"url": "http://127.0.0.1:5000/movies",
         "method": "GET",
         "data": "",
         "dataType": "JSON",
@@ -243,7 +244,8 @@ function getAllAjax() {
 function createmovieAjax(movie) {
     console.log(JSON.stringify(movie));
     $.ajax({
-        "url": "http://127.0.0.1:5000/movies",
+        "url": host+"/movies",
+        //"url": "http://127.0.0.1:5000/movies",
         "method": "POST",
         "data": JSON.stringify(movie),
         "dataType": "JSON",
@@ -259,7 +261,7 @@ function createmovieAjax(movie) {
 function updatemovieAjax(movie) {
     console.log(JSON.stringify(movie));
     $.ajax({
-        "url": "http://127.0.0.1:5000/movies/" + encodeURI(movie.name),
+        "url": host+"/movies/" + encodeURI(movie.name),
         "method": "PUT",
         "data": JSON.stringify(movie),
         "dataType": "JSON",
@@ -281,7 +283,7 @@ function votesAjax(index, numvotes) {
     var votes = "{\"votes\": " + numvotes + "}"
     //console.log(votes);
     $.ajax({
-        "url": "http://127.0.0.1:5000/votes/" + index,
+        "url": host+"/votes/" + index,
         "method": "PUT",
         "data": votes,
         "dataType": "JSON",
@@ -298,7 +300,7 @@ function votesAjax(index, numvotes) {
 function deletemovieAjax(name) {
     console.log(JSON.stringify(movie));
     $.ajax({
-        "url": "http://127.0.0.1:5000/movies/" + encodeURI(name),
+        "url": host+"/movies/" + encodeURI(name),
         "method": "DELETE",
         "data": "",
         "dataType": "JSON",

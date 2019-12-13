@@ -36,11 +36,7 @@ class MovieDAO:
             reader = csv.reader(f)
             columns = next(reader) 
             query = 'insert into topMovies(Title,Year) values (%s,%s)'
-            print(query)
-            #query = query.format(','.join(columns), ','.join('?' * len(columns)))
-            print(query)
             
-            #cursor = connection.cursor()
             cursor = self.db.cursor()
             for data in reader:
                 print (data)

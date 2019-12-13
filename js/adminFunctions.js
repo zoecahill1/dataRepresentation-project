@@ -1,3 +1,4 @@
+// Shows the section to create a movie
 function showCreate() {
     document.getElementById('showCreateButton').style.display = "none"
     document.getElementById('movieTable').style.display = "none"
@@ -10,11 +11,13 @@ function showCreate() {
     document.getElementById('doUpdateButton').style.display = "none"
     document.getElementById('dovoteButton').style.display = "none"
 }
+// Shows everything
 function showViewAll() {
     document.getElementById('showCreateButton').style.display = "block"
     document.getElementById('movieTable').style.display = "block"
     document.getElementById('createUpdateForm').style.display = "none"
 }
+// Shows the edit movie form
 function showUpdate(buttonElement) {
     document.getElementById('showCreateButton').style.display = "none"
     document.getElementById('movieTable').style.display = "none"
@@ -31,6 +34,7 @@ function showUpdate(buttonElement) {
     var movie = getmovieFromRow(rowElement)
     populateFormWithmovie(movie)
 }
+// Executes the function to create movie
 function doCreate() {
     var form = document.getElementById('createUpdateForm')
     var movie = {}
@@ -38,7 +42,7 @@ function doCreate() {
     movie.genre = form.querySelector('select[name="genre"]').value
     movie.description = form.querySelector('input[name="description"]').value
 
-
+    // Error checking nothing to be left blank
     if (movie.name == "") {
         alert("Name must be filled in")
     }
@@ -46,55 +50,53 @@ function doCreate() {
         alert("Description must be filled in")
     }
     else {
-        //movie.totalVotes = form.querySelector('input[name="totalVotes"]').value
-        console.log(JSON.stringify(movie))
-        // call to ajax method to create movie on server
+        // Call to ajax method to create movie on server
         createmovieAjax(movie)
         addmovieToTable(movie)
         clearForm()
         showViewAll()
+        // Refreshes window to recall from db
         window.location.reload();
     }
 
 }
+// Function to edit the movie
 function doUpdate() {
     var movie = getmovieFromForm();
     x = movie['description']
-    console.log(x)
-
+    // Error checking nothing to be left blank
     if (x == "") {
         alert("Description must be filled in")
     }
-
+    // If it passes then do the update
     else {
         var rowElement = document.getElementById(movie.name);
-        // call to ajax method to update movie on server
+        // Call to ajax method to update movie on server
         updatemovieAjax(movie);
         setmovieInRow(rowElement, movie);
         clearForm();
         showViewAll();
+        // Refreshes window to recall from db
         window.location.reload();
     }
 }
 
-// curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1
-
-// ERROR CALLING ROW NUMBER AS INDEX INSTEAD OF ID
+// Function to add/remove votes
 function dovote() {
     var movie = getmovieFromForm2();
     var index = movie.id;
+    // Gets movie from last cell in table
     var index = document.getElementById("movieTable").rows[index].lastChild.innerHTML
-    console.log(index)
     var form = document.getElementById('createUpdateForm')
     var numvotes = form.querySelector('input[name="totalVotes"]').value
-    // call to ajax method to update movie on server
+    // Call to ajax method to update movie on server
     votesAjax(index, numvotes);
-    //setmovieInRow(rowElement,movie);
     clearForm();
     showViewAll();
+    // Refreshes window to recall from db
     window.location.reload();
 }
-
+// SHows the voting form
 function showVote(buttonElement) {
     document.getElementById('showCreateButton').style.display = "none"
     document.getElementById('movieTable').style.display = "none"
@@ -112,21 +114,19 @@ function showVote(buttonElement) {
     document.getElementById('dovoteButton').style.display = "block"
     var rowElement = buttonElement.parentNode.parentNode
     var id = rowElement.rowIndex
-    //console.log(rowElement.rowIndex)
-    // these is a way of finding the closest <tr> which would safer, closest()
     var movie = getmovieFromRow(rowElement)
-    //console.log(movie)
     populateFormWithmovie2(movie, id)
 }
-
+// Delete a movie
 function doDelete(r) {
     var tableElement = document.getElementById('movieTable');
     var rowElement = r.parentNode.parentNode;
     var index = rowElement.rowIndex;
-    // call to ajax method to delete movie on server
+    // Call to ajax method to delete movie on server
     deletemovieAjax(rowElement.getAttribute("id"));
     tableElement.deleteRow(index);
 }
+// Populate table with movie from db and buttons
 function addmovieToTable(movie) {
     var tableElement = document.getElementById('movieTable')
     var rowElement = tableElement.insertRow(-1)
@@ -149,13 +149,13 @@ function addmovieToTable(movie) {
     var x = movie.id
     cell8.innerHTML = movie.id
 }
+// Clears form so nothing is held
 function clearForm() {
     var form = document.getElementById('createUpdateForm')
     form.querySelector('input[name="name"]').disabled = false
     form.querySelector('input[name="name"]').value = ''
     form.querySelector('select[name="genre"]').value = ''
     form.querySelector('input[name="description"]').value = ''
-    //form.querySelector('input[name="totalVotes"]').value=''
 }
 function getmovieFromRow(rowElement) {
     var movie = {}
@@ -181,7 +181,7 @@ function populateFormWithmovie(movie) {
     //form.querySelector('input[name="totalVotes"]').value= movie.totalVotes
     return movie
 }
-
+// Populate movie has ID aswell
 function populateFormWithmovie2(movie, id) {
     var form = document.getElementById('createUpdateForm')
     form.querySelector('input[name="name"]').disabled = true
@@ -189,11 +189,9 @@ function populateFormWithmovie2(movie, id) {
     form.querySelector('select[name="genre"]').value = movie.genre
     form.querySelector('input[name="description"]').value = movie.description
     form.querySelector('input[name="iden"]').value = id
-    //form.querySelector('input[name="totalVotes"]').value= movie.totalVotes
-    //console.log(movie)
     return movie
 }
-
+// Get movie from form with ID aswell
 function getmovieFromForm2() {
     var form = document.getElementById('createUpdateForm')
     var movie = {}
@@ -201,13 +199,9 @@ function getmovieFromForm2() {
     movie.genre = form.querySelector('select[name="genre"]').value
     movie.description = form.querySelector('input[name="description"]').value
     movie.id = form.querySelector('input[name="iden"]').value
-    //movie.totalVotes = parseInt(form.querySelector('input[name="totalVotes"]').value,10)
     console.log(JSON.stringify(movie))
     return movie
 }
-
-
-
 function getmovieFromForm() {
     var form = document.getElementById('createUpdateForm')
     var movie = {}
@@ -219,18 +213,18 @@ function getmovieFromForm() {
     //console.log(JSON.stringify(movie))
     return movie
 }
+
+// AJAX 
 host = window.location.origin
-// All coming from test files
+// Get all movies
 function getAllAjax() {
     $.ajax({
         "url": host+"/movies",
-        //"url": "http://127.0.0.1:5000/movies",
         "method": "GET",
         "data": "",
         "dataType": "JSON",
         "success": function (result) {
             console.log(result);
-            //for (movie of result.movies){
             for (movie of result) {
                 addmovieToTable(movie);
             }
@@ -240,24 +234,24 @@ function getAllAjax() {
         }
     });
 }
-
+// Create a movie 
 function createmovieAjax(movie) {
     console.log(JSON.stringify(movie));
     $.ajax({
         "url": host+"/movies",
-        //"url": "http://127.0.0.1:5000/movies",
         "method": "POST",
         "data": JSON.stringify(movie),
         "dataType": "JSON",
         contentType: "application/json; charset=utf-8",
         "success": function (result) {
-            // console.log(result);
+            console.log(result);
         },
         "error": function (xhr, status, error) {
             console.log("error: " + status + " msg:" + error);
         }
     });
 }
+// Updates a movie
 function updatemovieAjax(movie) {
     console.log(JSON.stringify(movie));
     $.ajax({
@@ -267,21 +261,18 @@ function updatemovieAjax(movie) {
         "dataType": "JSON",
         contentType: "application/json; charset=utf-8",
         "success": function (result) {
-            // console.log(result);
+            console.log(result);
         },
         "error": function (xhr, status, error) {
             console.log("error: " + status + " msg:" + error);
         }
     });
 }
-
-// curl -i -H "Content-Type:application/json" -X POST -d "{\"votes\":13}" http://127.0.0.1:5000/votes/1
+// Voting function
 function votesAjax(index, numvotes) {
-
-    console.log(index);
+    // Need to parse votes as int as they come in as a string
     parseInt(numvotes)
     var votes = "{\"votes\": " + numvotes + "}"
-    //console.log(votes);
     $.ajax({
         "url": host+"/votes/" + index,
         "method": "PUT",
@@ -296,7 +287,7 @@ function votesAjax(index, numvotes) {
         }
     });
 }
-
+// Deletes a movie
 function deletemovieAjax(name) {
     console.log(JSON.stringify(movie));
     $.ajax({

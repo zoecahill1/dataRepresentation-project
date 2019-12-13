@@ -39,5 +39,6 @@ This repository contains my solution for the assessment of Data Representation i
 3. In the Clone with HTTPs section, click to copy the clone URL for the repository.
 4. Open Git Bash.
 5. Change the current working directory to the location where you want the cloned directory to be made.
-6. Type git clone, and then paste the URL you copied in Step 2. 7/ Press Enter. Your local clone will be created.
+6. Type git clone, and then paste the URL you copied in Step 2. 
+7. Press Enter. Your local clone will be created.
 

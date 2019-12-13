@@ -11,24 +11,27 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (data) { // If search is successful, create HTMl with list items of movies
-
+                // If search is successful, create HTML with list items of movies
                 if (data.Response === "True") {
                     $.each(data.Search, function (i, movie) {
                         movieHTML += '<li id="' + movie.imdbID + '"><div class="poster-wrap">';
-                        if (movie.Poster != "N/A") { // If poster is available, display it
+                        // If poster is available, display it
+                        if (movie.Poster != "N/A") {
                             movieHTML += '<a class="movie-poster" href="#" data-toggle="modal" data-target="#' + movie.imdbID + '"><img src="' + movie.Poster + '"></a>';
-                        } else { // If not, display icon placeholder
+                            // If not then 
+                        } else {
                             movieHTML += "<i class='material-icons poster-placeholder'>crop_original</i>";
                         }
                         movieHTML += '</div>';
                         movieHTML += '<span class="movie-title">' + movie.Title + '</span>';
                     });
-                } else if (data.Response === "False") { // If the response is false and no movies are found, display message
+                    // If no movies are found
+                } else if (data.Response === "False") {
                     movieHTML += '<li class="no-movies"><i class="material-icons icon-help">help_outline</i>No movies found that match: ' + searchTerm;
                     $('.movie-list').html(movieHTML);
                 }
-                // Add HTML to page
-                $('.movie-list').html(movieHTML); // Print the HTML with list of movies to the page
+                // Print the HTML with list of movies to the page
+                $('.movie-list').html(movieHTML);
 
             },
         });
@@ -38,6 +41,7 @@ $(document).ready(function () {
     $('#movies').on('click', "li", function (e) {
 
         //Prevents the bootstrap modal from bubbling the add '.in' class to the target click
+        //https://stackoverflow.com/questions/17883692/how-to-set-time-delay-in-javascript
         e.stopPropagation();
         let movieModal = "",
             movieId = $(this).attr('id');
@@ -53,11 +57,11 @@ $(document).ready(function () {
                 $('.modal-dialog').html(movieModal); // Update the clicked modal
                 $('#posterModal').modal('show');
             }
-        }); // End AJAX call
+        });
 
 
-    });// End Click function
-
+    });
+    //https://stackoverflow.com/questions/17883692/how-to-set-time-delay-in-javascript
     let delay = (function () {
         let timer = 0;
         return function (callback, ms) {

@@ -11,12 +11,12 @@ class MovieDAO:
         password=   cfg.mysql['password'],
         database=   cfg.mysql['database']
         )
-
+    # Deletes data from table so top 100 can be written in
     def clear_table(self):
         cursor = self.db.cursor()
         sql="truncate table topMovies"
         cursor.execute(sql)
-
+    # Get the top movies
     def gettop(self):
         cursor = self.db.cursor()
         sql="select * from topMovies"
@@ -30,7 +30,7 @@ class MovieDAO:
 
         return returnArray
 
-
+    # Write top movies to db from csv
     def top_movies(self):
         with open ('ImdbTopMovies.csv', 'r') as f:
             reader = csv.reader(f)
@@ -43,7 +43,7 @@ class MovieDAO:
                 cursor.execute(query, data)
             self.db.commit()
             return print("Done")
-
+    # Create movie
     def create(self, values):
         cursor = self.db.cursor()
         sql="insert into movies (name,genre,description,totalVotes) values (%s,%s,%s,%s)"
@@ -51,7 +51,7 @@ class MovieDAO:
 
         self.db.commit()
         return cursor.lastrowid
-
+    # Get all the movies
     def getAll(self):
         cursor = self.db.cursor()
         sql="select * from movies"
@@ -64,15 +64,7 @@ class MovieDAO:
             returnArray.append(self.convertToDictionary(result))
 
         return returnArray
-
-    #def getUser(self):
-    #    cursor = self.db.cursor()
-    #    sql="select * from users where admin = 1"
-
-    #    cursor.execute(sql)
-    #    result = cursor.fetchone()
-    #    return self.convertToDictionaryUser(result)
-
+    # Get all movies by name
     def get_movie(self, name):
         cursor = self.db.cursor()
         sql="select * from movies where name = %s"
@@ -81,7 +73,7 @@ class MovieDAO:
         cursor.execute(sql, values)
         result = cursor.fetchone()
         return self.convertToDictionary(result)
-
+    # Get all movies by id
     def findByID(self, id):
         cursor = self.db.cursor()
         sql="select * from movies where id = %s"
@@ -90,7 +82,7 @@ class MovieDAO:
         cursor.execute(sql, values)
         result = cursor.fetchone()
         return self.convertToDictionary(result)
-
+    # Get id from movies
     def findID(self, id):
         cursor = self.db.cursor()
         sql="select id from movies where id = %s"
@@ -98,13 +90,13 @@ class MovieDAO:
         cursor.execute(sql, values)
         result = cursor.fetchone()
         return result
-
+    # Update the movies in db
     def update_movie(self, values):
         cursor = self.db.cursor()
         sql="update movies set name= %s,genre=%s, description=%s, totalVotes=%s where id = %s"
         cursor.execute(sql, values)
         self.db.commit()
-
+    # Delete movies by name
     def delete(self, name):
         cursor = self.db.cursor()
         sql="delete from movies where name = %s"
@@ -113,8 +105,8 @@ class MovieDAO:
         cursor.execute(sql, values)
 
         self.db.commit()
-        print("delete done")
-
+        print("Delete Done")
+    # Convert for movies
     def convertToDictionary(self, result):
         colnames=['id','name','genre', "description", "totalVotes"]
         item = {}
@@ -125,8 +117,7 @@ class MovieDAO:
                 item[colName] = value
         
         return item
-
-
+    # Convert for top movies
     def convertToDictionaryTop(self, result):
         colnames=['id','Title','Year']
         item = {}
@@ -137,7 +128,7 @@ class MovieDAO:
                 item[colName] = value
         
         return item
-        
+    # Function to add/remove votes
     def addVote(self, values):
         cursor = self.db.cursor()
         sql="update movies set totalVotes=totalVotes + %s where id = %s"

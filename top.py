@@ -15,8 +15,8 @@ class IMDB_top_movies:
         self.csv_file_name = csv_file_name
         self.imdb_url = imdb_url
 
-    # get top 100 movie ids from http://www.imdb.com/chart/top?ref=ft_250 
-    # check each movie link and scrape movie's ID that is a part or URL
+    # Get top 100 movie ids from http://www.imdb.com/chart/top?ref=ft_250 
+    # Check each movie link and scrape movie's ID that is a part or URL
     # id looks like tt0111161
     def imdb_id_crawler(self):
         r_imdb = requests.get(self.imdb_url)
@@ -38,7 +38,7 @@ class IMDB_top_movies:
         return top_100_ids_list
 
 
-# uusing movie ids get details from omdb api
+# Using movie IDs get details from omdb api
     def omdb_api_details(self):
 
         api = 'c460f163'
@@ -56,7 +56,7 @@ class IMDB_top_movies:
         sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
         return sorted_movies
 
-# put results into csv file
+# Write results into CSV file
     def generate_csv(self):
         sorted_movies = self.omdb_api_details()
         csv_file_name = self.csv_file_name
@@ -71,13 +71,13 @@ class IMDB_top_movies:
 if __name__ == "__main__":
     Top100 = IMDB_top_movies(
         'c460f163', 'ImdbTopMovies.csv', 'http://www.imdb.com/chart/top?ref=ft_250')
-    #Top100.imdb_id_crawler()
+    Top100.imdb_id_crawler()
     print("List of top 100 id's: {}.\nThere are {} movies on the list.".format(
         Top100.imdb_id_crawler(), len(Top100.imdb_id_crawler())))
-    #Top100.omdb_api_details()
+    Top100.omdb_api_details()
     print("Sorted movies: {}".format(Top100.omdb_api_details()))
-    #Top100.generate_csv()
+    Top100.generate_csv()
     print("Done")
-    #movieDAO.clear_table()
+    movieDAO.clear_table()
     movieDAO.top_movies()
-    print("updated")
+    print("Updated")

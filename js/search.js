@@ -14,20 +14,20 @@ $(document).ready(function () {
                 // If search is successful, create HTML with list items of movies
                 if (data.Response === "True") {
                     $.each(data.Search, function (i, movie) {
-                        movieHTML += '<li id="' + movie.imdbID + '"><div class="poster-wrap">';
+                        movieHTML += '<li id="' + movie.imdbID + '"><div>';
                         // If poster is available, display it
                         if (movie.Poster != "N/A") {
-                            movieHTML += '<a class="movie-poster" href="#" data-toggle="modal" data-target="#' + movie.imdbID + '"><img src="' + movie.Poster + '"></a>';
+                            movieHTML += '<a href="#" data-toggle="modal" data-target="#' + movie.imdbID + '"><img src="' + movie.Poster + '"></a>';
                             // If not then 
                         } else {
-                            movieHTML += "<i class='material-icons poster-placeholder'>crop_original</i>";
+                            movieHTML += "<i>crop_original</i>";
                         }
                         movieHTML += '</div>';
-                        movieHTML += '<span class="movie-title">' + movie.Title + '</span>';
+                        movieHTML += '<span>' + movie.Title + '</span>';
                     });
                     // If no movies are found
                 } else if (data.Response === "False") {
-                    movieHTML += '<li class="no-movies"><i class="material-icons icon-help">help_outline</i>No movies found that match: ' + searchTerm;
+                    movieHTML += '<li><i>help_outline</i>No movies found that match: ' + searchTerm;
                     $('.movie-list').html(movieHTML);
                 }
                 // Print the HTML with list of movies to the page
